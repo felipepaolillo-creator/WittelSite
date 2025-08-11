@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demonstração de Webchat</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            transition: background-image 0.5s ease-in-out;
+            margin: 0;
+            font-family: sans-serif;
+            min-height: 100vh;
+        }
+
+        body h1, body p {
+           display: none;
+        }
+
+        /* Área secreta de upload (Versão final e limpa) */
+        #containerUpload {
+            position: fixed;
+            bottom: 0;
+            left: 0; 
+            width: 150px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999; 
+            /* A linha da borda foi removida corretamente aqui. */
+        }
+
+        #botaoUpload {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        #containerUpload:hover #botaoUpload {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Demonstração do Webchat</h1>
+    <p>Use o botão abaixo para simular o site do cliente.</p>
+
+    <div id="containerUpload">
+        <button id="botaoUpload">Nova Foto</button>
+        <input type="file" id="uploaderDeImagem" accept="image/*" style="display: none;">
+    </div>
+
+    <script>
+        (function () {
+            let js = document.createElement('script');
+            js.type = 'text/javascript';
+            js.async = 1;
+            js.src = 'https://go.botmaker.com/rest/webchat/p/TQNXRFH7SG/init.js';
+            document.body.appendChild(js);
+        })();
+    </script>
+
+    <script>
+        const botaoUpload = document.getElementById('botaoUpload');
+        const uploaderDeImagem = document.getElementById('uploaderDeImagem');
+
+        botaoUpload.addEventListener('click', () => {
+            uploaderDeImagem.click();
+        });
+
+        uploaderDeImagem.addEventListener('change', (event) => {
+            const arquivo = event.target.files[0];
+            if (arquivo) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.body.style.backgroundImage = `url('${e.target.result}')`;
+                };
+                reader.readAsDataURL(arquivo);
+            }
+        });
+    </script>
+
+</body>
+</html>
